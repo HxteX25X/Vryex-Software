@@ -1,0 +1,1708 @@
+```html
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vortex Software | Velocidad, lógica y diseño en cada aplicación</title>
+  <meta name="description" content="Vortex Software: Desarrollo de aplicaciones móviles (iOS y Android), software a la medida, plataformas web y consultoría en transformación digital. Velocidad, lógica y diseño en cada aplicación." />
+
+  <!-- Tipografías modernas: Plus Jakarta Sans (Títulos) e Inter (Cuerpo) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            vortex: {
+              bg: '#0B1120',
+              slate: '#0F172A',
+              card: '#131C31',
+              cyan: '#06B6D4',
+              cyanLight: '#22D3EE',
+              emerald: '#10B981',
+              emeraldLight: '#34D399',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* ==================== ESTILOS BASE Y TEMA OSCURO TECNOLÓGICO ==================== */
+    body {
+      background-color: #0B1120;
+      color: #F8FAFC;
+      overflow-x: hidden;
+    }
+
+    /* Cuadrícula arquitectónica sutil para fondos interiores */
+    .tech-grid {
+      background-image:
+        linear-gradient(to right, rgba(6, 182, 212, 0.045) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(16, 185, 129, 0.035) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    /* Tarjetas Glassmorphism con capas decorativas no bloqueantes */
+    .glass-panel {
+      position: relative;
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.82), rgba(11, 17, 32, 0.92));
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(6, 182, 212, 0.18);
+      box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.65);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .glass-panel::before,
+    .glass-panel::after {
+      pointer-events: none;
+    }
+
+    .glass-panel:hover {
+      border-color: rgba(6, 182, 212, 0.48);
+      box-shadow: 0 18px 42px -12px rgba(6, 182, 212, 0.24), 0 0 22px -6px rgba(16, 185, 129, 0.20);
+      transform: translateY(-3px);
+    }
+
+    /* Gradiente de texto Cian Eléctrico -> Verde Esmeralda */
+    .text-gradient-vortex {
+      background: linear-gradient(135deg, #F8FAFC 10%, #22D3EE 55%, #10B981 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Botón CTA principal con degradado cian/esmeralda */
+    .btn-vortex-primary {
+      background: linear-gradient(135deg, #06B6D4 0%, #10B981 100%);
+      box-shadow: 0 0 26px rgba(6, 182, 212, 0.35);
+      transition: all 0.25s ease;
+    }
+
+    .btn-vortex-primary:hover {
+      background: linear-gradient(135deg, #22D3EE 0%, #34D399 100%);
+      box-shadow: 0 0 36px rgba(6, 182, 212, 0.55), 0 0 18px rgba(16, 185, 129, 0.35);
+      transform: translateY(-1.5px);
+    }
+
+    /* Garantía crítica de interactividad para botones y enlaces de redes sociales */
+    .social-link-btn {
+      position: relative;
+      z-index: 20;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+      touch-action: manipulation;
+    }
+
+    /* Todos los elementos decorativos y canvas jamás interceptan clics */
+    .decorative-overlay,
+    #vortexHeroCanvas {
+      pointer-events: none !important;
+    }
+
+    /* Animación de aparición progresiva en scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Scrollbar personalizada */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0B1120;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1E293B;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #06B6D4;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+
+  <!-- ==================== 1. NAVEGACIÓN FIJA (NAVBAR) ==================== -->
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-[#0B1120]/85 backdrop-blur-xl border-b border-cyan-500/15 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+
+        <!-- Logotipo SVG Geométrico de Vórtice + Marca -->
+        <a href="#inicio" class="flex items-center gap-3.5 group focus:outline-none" aria-label="Vortex Software Inicio">
+          <div class="relative w-11 h-11 flex items-center justify-center">
+            <div class="decorative-overlay absolute inset-0 rounded-xl bg-gradient-to-tr from-cyan-500/25 to-emerald-500/25 blur-md group-hover:blur-lg transition-all"></div>
+            <svg viewBox="0 0 64 64" class="w-11 h-11 relative z-10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="vortexCyanEmerald" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#22D3EE" />
+                  <stop offset="55%" stop-color="#06B6D4" />
+                  <stop offset="100%" stop-color="#10B981" />
+                </linearGradient>
+                <linearGradient id="vortexCore" x1="16" y1="14" x2="48" y2="50" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#67E8F9" />
+                  <stop offset="100%" stop-color="#34D399" />
+                </linearGradient>
+              </defs>
+              <polygon points="32,3 58,18 58,46 32,61 6,46 6,18" fill="#0F172A" stroke="url(#vortexCyanEmerald)" stroke-width="1.8" />
+              <ellipse cx="32" cy="20.5" rx="19.5" ry="7.2" stroke="url(#vortexCyanEmerald)" stroke-width="2.5" />
+              <path d="M15.5 27.5C20 32 44 32 48.5 27.5" stroke="#22D3EE" stroke-width="2.3" stroke-linecap="round" />
+              <path d="M19.5 34.5C23.5 38.5 40.5 38.5 44.5 34.5" stroke="#06B6D4" stroke-width="2.1" stroke-linecap="round" />
+              <path d="M24 41.5C27 44.5 37 44.5 40 41.5" stroke="#10B981" stroke-width="2" stroke-linecap="round" />
+              <path d="M28.5 48.5L32 54.5L35.5 48.5" stroke="#34D399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <circle cx="32" cy="20.5" r="2.6" fill="url(#vortexCore)" />
+              <circle cx="51" cy="18" r="2" fill="#22D3EE" />
+              <circle cx="13" cy="24" r="1.8" fill="#10B981" />
+            </svg>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-display font-extrabold text-xl tracking-tight text-white leading-none">
+              Vortex <span class="text-cyan-400">Software</span>
+            </span>
+            <span class="text-[10px] font-semibold tracking-[0.22em] text-emerald-400/90 uppercase mt-1">
+              Engineering Studio
+            </span>
+          </div>
+        </a>
+
+        <!-- Enlaces de Navegación Desktop -->
+        <nav class="hidden md:flex items-center gap-7" aria-label="Navegación principal">
+          <a href="#servicios" class="text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Servicios</a>
+          <a href="#clientes" class="text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Clientes</a>
+          <a href="#nosotros" class="text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Nosotros</a>
+          <a href="#cotizador" class="text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Cotizador</a>
+          <a href="#contacto" class="text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Contacto</a>
+        </nav>
+
+        <!-- Botón CTA Desktop + Botón Hamburguesa Móvil -->
+        <div class="flex items-center gap-3">
+          <a href="#cotizador" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-slate-950 btn-vortex-primary">
+            <span>Cotizar Proyecto</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </a>
+
+          <!-- Botón Menú Hamburguesa Móvil -->
+          <button id="mobile-menu-btn" type="button" class="md:hidden p-3 rounded-xl bg-slate-900/90 border border-cyan-500/25 text-slate-200 hover:text-cyan-400 hover:border-cyan-400/50 transition-colors" aria-label="Abrir menú" aria-expanded="false">
+            <svg id="icon-hamburger" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Menú Desplegable Móvil -->
+    <div id="mobile-menu" class="hidden md:hidden bg-[#0F172A]/95 backdrop-blur-2xl border-b border-cyan-500/20 px-4 pt-3 pb-6 space-y-2">
+      <a href="#servicios" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium text-slate-200 hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">Servicios</a>
+      <a href="#clientes" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium text-slate-200 hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">Clientes</a>
+      <a href="#nosotros" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium text-slate-200 hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">Nosotros</a>
+      <a href="#cotizador" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium text-slate-200 hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">Cotizador</a>
+      <a href="#contacto" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium text-slate-200 hover:bg-cyan-500/10 hover:text-cyan-400 transition-colors">Contacto</a>
+      <div class="pt-2">
+        <a href="#cotizador" class="mobile-link w-full flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-base font-bold text-slate-950 btn-vortex-primary">
+          <span>Cotizar Proyecto</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ==================== 2. HERO SECTION INTERACTIVO ==================== -->
+    <section id="inicio" class="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden">
+      <!-- Canvas de partículas luminosas en vórtice (pointer-events: none garantizado) -->
+      <canvas id="vortexHeroCanvas" class="decorative-overlay absolute inset-0 w-full h-full block z-0"></canvas>
+
+      <!-- Viñeta de contraste decorativa (pointer-events: none garantizado) -->
+      <div class="decorative-overlay absolute inset-0 bg-gradient-to-b from-[#0B1120]/60 via-[#0B1120]/45 to-[#0B1120] z-0"></div>
+
+      <!-- Contenido Principal del Hero -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+        <div class="max-w-4xl mx-auto text-center space-y-8">
+
+          <!-- Badge de Estado -->
+          <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#0F172A]/85 backdrop-blur-md border border-cyan-400/30 text-xs sm:text-sm font-medium text-cyan-300 shadow-lg">
+            <span class="relative flex h-2.5 w-2.5">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
+            </span>
+            <span>Ingeniería de Software & Desarrollo de Aplicaciones</span>
+          </div>
+
+          <!-- Título Principal -->
+          <h1 class="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.08] text-white">
+            Impulsamos tu visión digital con <span class="text-gradient-vortex">tecnología de vanguardia.</span>
+          </h1>
+
+          <!-- Eslogan Oficial Destacado -->
+          <div class="inline-block px-6 py-3 rounded-2xl bg-gradient-to-r from-cyan-500/15 via-slate-900/85 to-emerald-500/15 border border-cyan-400/30 backdrop-blur-md shadow-xl">
+            <p class="font-display font-bold text-lg sm:text-2xl text-cyan-200 tracking-wide">
+              «Velocidad, lógica y diseño en cada aplicación»
+            </p>
+          </div>
+
+          <!-- Descripción -->
+          <p class="text-base sm:text-lg lg:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            Diseñamos y construimos aplicaciones móviles (iOS y Android), plataformas web modernas y software empresarial a la medida con arquitecturas limpias y alto impacto visual.
+          </p>
+
+          <!-- Botones CTA ("Cotizar Proyecto" y "Explorar Servicios") -->
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <a href="#cotizador" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl text-base font-bold text-slate-950 btn-vortex-primary">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+              </svg>
+              <span>Cotizar Proyecto</span>
+            </a>
+
+            <a href="#servicios" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl text-base font-semibold text-white bg-[#0F172A]/85 hover:bg-slate-800/95 backdrop-blur-md border border-cyan-500/30 hover:border-emerald-400/50 transition-all">
+              <span>Explorar Servicios</span>
+              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Indicador interactivo -->
+          <div class="pt-6 flex items-center justify-center gap-2 text-xs text-slate-400 font-mono">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            <span>Mueve el cursor o toca la pantalla para acelerar el vórtice de datos</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 3. SERVICIOS ==================== -->
+    <section id="servicios" class="py-24 relative bg-[#0F172A]/65 border-y border-slate-800/80">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+          <span class="text-xs font-bold uppercase tracking-[0.22em] text-emerald-400">Nuestros Servicios</span>
+          <h2 class="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-white mt-3">
+            Soluciones digitales de <span class="text-gradient-vortex">alto rendimiento</span>
+          </h2>
+          <p class="text-slate-400 text-base sm:text-lg mt-4 leading-relaxed">
+            Abarcamos todo el ciclo de vida del desarrollo de software, desde la conceptualización UX/UI hasta el despliegue escalable en la nube.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+          <!-- Servicio 1: Aplicaciones Móviles (iOS y Android) -->
+          <article class="glass-panel rounded-2xl p-7 flex flex-col justify-between reveal group">
+            <div>
+              <div class="w-14 h-14 rounded-2xl bg-cyan-500/15 border border-cyan-400/30 flex items-center justify-center text-cyan-400 mb-6 group-hover:scale-110 group-hover:bg-cyan-500/25 transition-all">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                  <rect x="6" y="2" width="12" height="20" rx="2.5" />
+                  <line x1="12" y1="18" x2="12.01" y2="18" stroke-width="2.5" stroke-linecap="round" />
+                  <path d="M9.5 8L12 10.5 14.5 8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <h3 class="font-display font-bold text-xl text-white mb-3 group-hover:text-cyan-300 transition-colors">
+                Aplicaciones Móviles (iOS y Android)
+              </h3>
+              <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                Desarrollo nativo y multiplataforma con interfaces fluidas, notificaciones en tiempo real, geolocalización y publicación en App Store y Google Play.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-slate-800/90 flex items-center justify-between">
+              <span class="text-xs font-mono text-cyan-400">iOS • Android • React Native</span>
+              <button type="button" onclick="quickSelectProject('App Móvil')" class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 inline-flex items-center gap-1 py-1 transition-colors cursor-pointer">
+                <span>Cotizar</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </article>
+
+          <!-- Servicio 2: Software a la Medida -->
+          <article class="glass-panel rounded-2xl p-7 flex flex-col justify-between reveal group">
+            <div>
+              <div class="w-14 h-14 rounded-2xl bg-emerald-500/15 border border-emerald-400/30 flex items-center justify-center text-emerald-400 mb-6 group-hover:scale-110 group-hover:bg-emerald-500/25 transition-all">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h3 class="font-display font-bold text-xl text-white mb-3 group-hover:text-emerald-300 transition-colors">
+                Software a la Medida
+              </h3>
+              <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                Sistemas empresariales personalizados, ERPs, CRMs y automatización de procesos internos diseñados exactamente para los flujos de tu organización.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-slate-800/90 flex items-center justify-between">
+              <span class="text-xs font-mono text-emerald-400">APIs • Microservicios</span>
+              <button type="button" onclick="quickSelectProject('Software a la Medida')" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1 py-1 transition-colors cursor-pointer">
+                <span>Cotizar</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </article>
+
+          <!-- Servicio 3: Plataformas Web -->
+          <article class="glass-panel rounded-2xl p-7 flex flex-col justify-between reveal group">
+            <div>
+              <div class="w-14 h-14 rounded-2xl bg-cyan-500/15 border border-cyan-400/30 flex items-center justify-center text-cyan-400 mb-6 group-hover:scale-110 group-hover:bg-cyan-500/25 transition-all">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                  <rect x="2" y="3" width="20" height="14" rx="2.5" />
+                  <path stroke-linecap="round" d="M8 21h8M12 17v4" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 9h4m-4 3h10" />
+                </svg>
+              </div>
+              <h3 class="font-display font-bold text-xl text-white mb-3 group-hover:text-cyan-300 transition-colors">
+                Plataformas Web
+              </h3>
+              <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                Aplicaciones web progresivas (PWA), plataformas SaaS en la nube, e-commerce y paneles administrativos interactivos de carga ultrarrápida.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-slate-800/90 flex items-center justify-between">
+              <span class="text-xs font-mono text-cyan-400">React • Next.js • SaaS</span>
+              <button type="button" onclick="quickSelectProject('Plataforma Web')" class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 inline-flex items-center gap-1 py-1 transition-colors cursor-pointer">
+                <span>Cotizar</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </article>
+
+          <!-- Servicio 4: Consultoría en Transformación Digital -->
+          <article class="glass-panel rounded-2xl p-7 flex flex-col justify-between reveal group">
+            <div>
+              <div class="w-14 h-14 rounded-2xl bg-emerald-500/15 border border-emerald-400/30 flex items-center justify-center text-emerald-400 mb-6 group-hover:scale-110 group-hover:bg-emerald-500/25 transition-all">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 12v4m0 0l-2-2m2 2l2-2" />
+                </svg>
+              </div>
+              <h3 class="font-display font-bold text-xl text-white mb-3 group-hover:text-emerald-300 transition-colors">
+                Consultoría en Transformación Digital
+              </h3>
+              <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                Arquitectura cloud, modernización de infraestructura, optimización de bases de datos e integración de inteligencia artificial en procesos clave.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-slate-800/90 flex items-center justify-between">
+              <span class="text-xs font-mono text-emerald-400">Cloud • DevOps • IA</span>
+              <button type="button" onclick="quickSelectProject('Software a la Medida')" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1 py-1 transition-colors cursor-pointer">
+                <span>Cotizar</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 4. CLIENTES (PÚBLICO OBJETIVO) Y NOSOTROS (3 PILARES) ==================== -->
+    <section class="py-24 relative tech-grid">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24">
+
+        <!-- Subsección Clientes: Público Objetivo -->
+        <div id="clientes" class="scroll-mt-28">
+          <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6 reveal">
+            <div class="max-w-2xl">
+              <span class="text-xs font-bold uppercase tracking-[0.22em] text-cyan-400">Nuestros Clientes</span>
+              <h2 class="font-display font-bold text-3xl sm:text-4xl text-white mt-3">
+                Soluciones escalables para cada nivel de negocio
+              </h2>
+            </div>
+            <p class="text-slate-400 text-sm sm:text-base max-w-md">
+              Adaptamos nuestra metodología ágil desde el lanzamiento de un MVP hasta plataformas corporativas de alta demanda.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Segmento 1: Startups y Emprendedores -->
+            <div class="glass-panel rounded-2xl p-8 reveal relative overflow-hidden">
+              <div class="decorative-overlay absolute top-0 right-0 w-28 h-28 bg-cyan-500/10 rounded-bl-full"></div>
+              <span class="inline-block px-3 py-1 rounded-lg bg-cyan-500/15 border border-cyan-400/25 text-cyan-300 text-xs font-mono font-semibold mb-5">
+                01 // STARTUPS Y EMPRENDEDORES
+              </span>
+              <h3 class="font-display font-bold text-2xl text-white mb-3">Startups y Emprendedores</h3>
+              <p class="text-slate-400 text-sm leading-relaxed mb-5">
+                Desarrollo rápido de <strong class="text-slate-200 font-medium">Productos Mínimos Viables (MVP)</strong> funcionales y listos para validar ideas en el mercado real y levantar inversión.
+              </p>
+              <ul class="space-y-2 text-xs text-slate-300">
+                <li class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                  <span>Lanzamientos ágiles en pocas semanas</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span>Arquitectura preparada para escalar usuarios</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Segmento 2: PyMEs -->
+            <div class="glass-panel rounded-2xl p-8 reveal relative overflow-hidden">
+              <div class="decorative-overlay absolute top-0 right-0 w-28 h-28 bg-emerald-500/10 rounded-bl-full"></div>
+              <span class="inline-block px-3 py-1 rounded-lg bg-emerald-500/15 border border-emerald-400/25 text-emerald-300 text-xs font-mono font-semibold mb-5">
+                02 // PYMES
+              </span>
+              <h3 class="font-display font-bold text-2xl text-white mb-3">PyMEs</h3>
+              <p class="text-slate-400 text-sm leading-relaxed mb-5">
+                Digitalización de operaciones, automatización de ventas y aplicaciones móviles propias para fidelizar clientes y optimizar costos operativos.
+              </p>
+              <ul class="space-y-2 text-xs text-slate-300">
+                <li class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                  <span>Control de inventarios, pedidos y citas</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span>Canales digitales directos de comercialización</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Segmento 3: Grandes Empresas -->
+            <div class="glass-panel rounded-2xl p-8 reveal relative overflow-hidden">
+              <div class="decorative-overlay absolute top-0 right-0 w-28 h-28 bg-cyan-500/10 rounded-bl-full"></div>
+              <span class="inline-block px-3 py-1 rounded-lg bg-cyan-500/15 border border-cyan-400/25 text-cyan-300 text-xs font-mono font-semibold mb-5">
+                03 // GRANDES EMPRESAS
+              </span>
+              <h3 class="font-display font-bold text-2xl text-white mb-3">Grandes Empresas</h3>
+              <p class="text-slate-400 text-sm leading-relaxed mb-5">
+                Ingeniería de software empresarial robusto, integración con sistemas ERPs existentes y plataformas cloud seguras de alta disponibilidad.
+              </p>
+              <ul class="space-y-2 text-xs text-slate-300">
+                <li class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                  <span>Seguridad informática y control de roles</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span>Interoperabilidad mediante APIs de alto flujo</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subsección Nosotros: Los 3 Pilares de Valor -->
+        <div id="nosotros" class="scroll-mt-28 glass-panel rounded-3xl p-8 sm:p-12 reveal border-cyan-500/25">
+          <div class="text-center max-w-2xl mx-auto mb-12">
+            <span class="inline-block px-3.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs font-bold uppercase tracking-wider mb-3">
+              Nuestra Esencia • Nosotros
+            </span>
+            <h3 class="font-display font-bold text-2xl sm:text-4xl text-white">
+              Los 3 Pilares de <span class="text-gradient-vortex">Vortex Software</span>
+            </h3>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Pilar 1: Velocidad -->
+            <div class="flex flex-col items-center text-center p-4">
+              <div class="w-16 h-16 rounded-2xl bg-cyan-500/15 border border-cyan-400/35 flex items-center justify-center text-cyan-400 mb-5 shadow-lg shadow-cyan-500/15">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <h4 class="font-display font-bold text-xl text-white mb-2">1. Velocidad</h4>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Desarrollo iterativo con entregas constantes y tiempos de respuesta ultrarrápidos tanto en la ejecución del proyecto como en el rendimiento final de la app.
+              </p>
+            </div>
+
+            <!-- Pilar 2: Lógica -->
+            <div class="flex flex-col items-center text-center p-4 md:border-x md:border-slate-800/90">
+              <div class="w-16 h-16 rounded-2xl bg-emerald-500/15 border border-emerald-400/35 flex items-center justify-center text-emerald-400 mb-5 shadow-lg shadow-emerald-500/15">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+              </div>
+              <h4 class="font-display font-bold text-xl text-white mb-2">2. Lógica</h4>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Ingeniería de software estructurada, código limpio y bases de datos optimizadas que aseguran estabilidad, seguridad y mantenimiento sencillo a largo plazo.
+              </p>
+            </div>
+
+            <!-- Pilar 3: Diseño -->
+            <div class="flex flex-col items-center text-center p-4">
+              <div class="w-16 h-16 rounded-2xl bg-cyan-500/15 border border-cyan-400/35 flex items-center justify-center text-cyan-400 mb-5 shadow-lg shadow-cyan-500/15">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                </svg>
+              </div>
+              <h4 class="font-display font-bold text-xl text-white mb-2">3. Diseño</h4>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Interfaces UI/UX contemporáneas, intuitivas y 100% responsivas diseñadas para brindar una experiencia memorable en cualquier pantalla.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== 5. COTIZADOR DINÁMICO DE APLICACIONES ==================== -->
+    <section id="cotizador" class="py-24 relative bg-[#0F172A]/70 border-y border-slate-800/80 scroll-mt-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center max-w-3xl mx-auto mb-14 reveal">
+          <span class="text-xs font-bold uppercase tracking-[0.22em] text-cyan-400">Cotizador Dinámico</span>
+          <h2 class="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-white mt-3">
+            Calcula la inversión y tiempo de <span class="text-gradient-vortex">tu proyecto</span>
+          </h2>
+          <p class="text-slate-400 text-base sm:text-lg mt-4">
+            Selecciona la arquitectura base y activa los módulos funcionales que necesitas para obtener tu estimación en tiempo real.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start reveal">
+
+          <!-- Columna Izquierda: Selectores de Proyecto Base y 5 Módulos -->
+          <div class="lg:col-span-7 glass-panel rounded-3xl p-6 sm:p-8 space-y-8">
+
+            <!-- Paso 1: Selección de Proyecto Base -->
+            <div>
+              <h3 class="font-display font-bold text-lg text-white mb-4 flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-cyan-500/20 text-cyan-400 text-sm flex items-center justify-center font-mono">1</span>
+                <span>Selecciona el proyecto base</span>
+              </h3>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5" id="base-project-selector">
+                <!-- Base 1: App Móvil ($18,000 MXN / 3 sem) -->
+                <button type="button" data-name="App Móvil" data-price="18000" data-weeks="3" class="base-type-card active-base text-left p-4 rounded-2xl border transition-all bg-cyan-500/15 border-cyan-400 shadow-lg shadow-cyan-500/10 cursor-pointer">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-mono font-bold text-cyan-300">3 sem</span>
+                    <span class="radio-indicator w-3.5 h-3.5 rounded-full bg-cyan-400 ring-4 ring-cyan-400/20"></span>
+                  </div>
+                  <p class="font-display font-bold text-white text-base">App Móvil</p>
+                  <p class="text-sm font-semibold text-emerald-400 mt-1">$18,000 MXN</p>
+                </button>
+
+                <!-- Base 2: Plataforma Web ($15,000 MXN / 2.5 sem) -->
+                <button type="button" data-name="Plataforma Web" data-price="15000" data-weeks="2.5" class="base-type-card text-left p-4 rounded-2xl border transition-all bg-slate-900/75 border-slate-800 hover:border-cyan-500/40 cursor-pointer">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-mono font-bold text-slate-400">2.5 sem</span>
+                    <span class="radio-indicator w-3.5 h-3.5 rounded-full bg-slate-700"></span>
+                  </div>
+                  <p class="font-display font-bold text-white text-base">Plataforma Web</p>
+                  <p class="text-sm font-semibold text-emerald-400 mt-1">$15,000 MXN</p>
+                </button>
+
+                <!-- Base 3: Software a la Medida ($25,000 MXN / 4 sem) -->
+                <button type="button" data-name="Software a la Medida" data-price="25000" data-weeks="4" class="base-type-card text-left p-4 rounded-2xl border transition-all bg-slate-900/75 border-slate-800 hover:border-cyan-500/40 cursor-pointer">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-mono font-bold text-slate-400">4 sem</span>
+                    <span class="radio-indicator w-3.5 h-3.5 rounded-full bg-slate-700"></span>
+                  </div>
+                  <p class="font-display font-bold text-white text-base">Software a la Medida</p>
+                  <p class="text-sm font-semibold text-emerald-400 mt-1">$25,000 MXN</p>
+                </button>
+              </div>
+            </div>
+
+            <!-- Paso 2: 5 Módulos Activables -->
+            <div>
+              <h3 class="font-display font-bold text-lg text-white mb-4 flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 text-sm flex items-center justify-center font-mono">2</span>
+                <span>Módulos adicionales activables</span>
+              </h3>
+
+              <div class="space-y-3" id="modules-checklist">
+
+                <!-- Módulo 1: Inicio de sesión / Usuarios (+1 sem | +$6,500) -->
+                <label class="module-card flex items-center justify-between gap-4 p-4 rounded-2xl border border-slate-800 bg-slate-900/75 hover:border-cyan-500/40 cursor-pointer transition-all select-none">
+                  <div class="flex items-center gap-3.5">
+                    <input type="checkbox" class="module-checkbox sr-only" data-label="Inicio de sesión / Usuarios" data-weeks="1" data-price="6500" checked />
+                    <span class="custom-check w-6 h-6 rounded-lg border flex items-center justify-center text-xs font-bold transition-all shrink-0 bg-emerald-400 border-emerald-400 text-slate-950">✓</span>
+                    <div>
+                      <p class="text-sm sm:text-base font-semibold text-white">Inicio de sesión / Usuarios</p>
+                      <p class="text-xs text-slate-400">Registro seguro, autenticación con tokens y perfiles de usuario</p>
+                    </div>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <p class="text-xs sm:text-sm font-bold text-emerald-400">+$6,500 MXN</p>
+                    <p class="text-[11px] font-mono text-cyan-300">+1 sem</p>
+                  </div>
+                </label>
+
+                <!-- Módulo 2: Pasarela de Pagos (+1.5 sem | +$9,500) -->
+                <label class="module-card flex items-center justify-between gap-4 p-4 rounded-2xl border border-slate-800 bg-slate-900/75 hover:border-cyan-500/40 cursor-pointer transition-all select-none">
+                  <div class="flex items-center gap-3.5">
+                    <input type="checkbox" class="module-checkbox sr-only" data-label="Pasarela de Pagos" data-weeks="1.5" data-price="9500" />
+                    <span class="custom-check w-6 h-6 rounded-lg border border-slate-600 flex items-center justify-center text-xs font-bold text-transparent transition-all shrink-0">✓</span>
+                    <div>
+                      <p class="text-sm sm:text-base font-semibold text-white">Pasarela de Pagos</p>
+                      <p class="text-xs text-slate-400">Cobros con tarjeta y suscripciones (Stripe / MercadoPago)</p>
+                    </div>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <p class="text-xs sm:text-sm font-bold text-emerald-400">+$9,500 MXN</p>
+                    <p class="text-[11px] font-mono text-cyan-300">+1.5 sem</p>
+                  </div>
+                </label>
+
+                <!-- Módulo 3: Panel de Administración / Dashboard (+2 sem | +$12,000) -->
+                <label class="module-card flex items-center justify-between gap-4 p-4 rounded-2xl border border-slate-800 bg-slate-900/75 hover:border-cyan-500/40 cursor-pointer transition-all select-none">
+                  <div class="flex items-center gap-3.5">
+                    <input type="checkbox" class="module-checkbox sr-only" data-label="Panel de Administración / Dashboard" data-weeks="2" data-price="12000" checked />
+                    <span class="custom-check w-6 h-6 rounded-lg border flex items-center justify-center text-xs font-bold transition-all shrink-0 bg-emerald-400 border-emerald-400 text-slate-950">✓</span>
+                    <div>
+                      <p class="text-sm sm:text-base font-semibold text-white">Panel de Administración / Dashboard</p>
+                      <p class="text-xs text-slate-400">Métricas en tiempo real, reportes y gestión integral de datos</p>
+                    </div>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <p class="text-xs sm:text-sm font-bold text-emerald-400">+$12,000 MXN</p>
+                    <p class="text-[11px] font-mono text-cyan-300">+2 sem</p>
+                  </div>
+                </label>
+
+                <!-- Módulo 4: Notificaciones Push (+0.5 sem | +$4,500) -->
+                <label class="module-card flex items-center justify-between gap-4 p-4 rounded-2xl border border-slate-800 bg-slate-900/75 hover:border-cyan-500/40 cursor-pointer transition-all select-none">
+                  <div class="flex items-center gap-3.5">
+                    <input type="checkbox" class="module-checkbox sr-only" data-label="Notificaciones Push" data-weeks="0.5" data-price="4500" />
+                    <span class="custom-check w-6 h-6 rounded-lg border border-slate-600 flex items-center justify-center text-xs font-bold text-transparent transition-all shrink-0">✓</span>
+                    <div>
+                      <p class="text-sm sm:text-base font-semibold text-white">Notificaciones Push</p>
+                      <p class="text-xs text-slate-400">Alertas instantáneas en dispositivos móviles y navegadores</p>
+                    </div>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <p class="text-xs sm:text-sm font-bold text-emerald-400">+$4,500 MXN</p>
+                    <p class="text-[11px] font-mono text-cyan-300">+0.5 sem</p>
+                  </div>
+                </label>
+
+                <!-- Módulo 5: Integración con IA (+2 sem | +$14,000) -->
+                <label class="module-card flex items-center justify-between gap-4 p-4 rounded-2xl border border-slate-800 bg-slate-900/75 hover:border-cyan-500/40 cursor-pointer transition-all select-none">
+                  <div class="flex items-center gap-3.5">
+                    <input type="checkbox" class="module-checkbox sr-only" data-label="Integración con IA" data-weeks="2" data-price="14000" />
+                    <span class="custom-check w-6 h-6 rounded-lg border border-slate-600 flex items-center justify-center text-xs font-bold text-transparent transition-all shrink-0">✓</span>
+                    <div>
+                      <p class="text-sm sm:text-base font-semibold text-white">Integración con IA</p>
+                      <p class="text-xs text-slate-400">Asistentes inteligentes, automatización y análisis predictivo</p>
+                    </div>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <p class="text-xs sm:text-sm font-bold text-emerald-400">+$14,000 MXN</p>
+                    <p class="text-[11px] font-mono text-cyan-300">+2 sem</p>
+                  </div>
+                </label>
+
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Columna Derecha: Panel de Resumen en Tiempo Real -->
+          <div class="lg:col-span-5 glass-panel rounded-3xl p-6 sm:p-8 border-cyan-400/35 sticky top-24">
+            <div class="flex items-center justify-between pb-5 border-b border-slate-800">
+              <div>
+                <span class="text-xs font-mono uppercase tracking-wider text-emerald-400">Estimación en Tiempo Real</span>
+                <h3 id="quote-base-title" class="font-display font-bold text-2xl text-white mt-1">App Móvil</h3>
+              </div>
+              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/15 text-cyan-300 border border-cyan-400/30">
+                Vortex Quote
+              </span>
+            </div>
+
+            <!-- Totales Calculados Automáticamente -->
+            <div class="grid grid-cols-2 gap-4 my-6">
+              <div class="p-4 rounded-2xl bg-[#0B1120]/85 border border-slate-800">
+                <p class="text-xs text-slate-400 mb-1">Tiempo estimado</p>
+                <p id="quote-total-weeks" class="font-display font-extrabold text-2xl sm:text-3xl text-cyan-400">6 semanas</p>
+              </div>
+              <div class="p-4 rounded-2xl bg-[#0B1120]/85 border border-slate-800">
+                <p class="text-xs text-slate-400 mb-1">Inversión estimada</p>
+                <p id="quote-total-price" class="font-display font-extrabold text-xl sm:text-2xl text-emerald-400">$36,500 <span class="text-xs font-normal text-slate-400">MXN</span></p>
+              </div>
+            </div>
+
+            <!-- Desglose de Módulos Activos -->
+            <div class="mb-6">
+              <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2.5">Configuración activa:</p>
+              <div id="quote-selected-tags" class="flex flex-wrap gap-2">
+                <!-- Generado dinámicamente -->
+              </div>
+            </div>
+
+            <!-- Garantías incluidas -->
+            <div class="p-4 rounded-2xl bg-slate-900/65 border border-slate-800/80 mb-7 space-y-2 text-xs text-slate-300">
+              <p class="font-semibold text-white mb-1.5">Incluido sin costo extra:</p>
+              <p class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> Diseño UI/UX personalizado y adaptable a móviles</p>
+              <p class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> Entrega completa de código fuente y documentación</p>
+              <p class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> Despliegue en producción y soporte técnico inicial</p>
+            </div>
+
+            <!-- Botón "Transferir cotización a contacto" -->
+            <button type="button" id="transfer-quote-btn" class="w-full py-4 px-6 rounded-xl font-bold text-base text-slate-950 btn-vortex-primary flex items-center justify-center gap-2.5 cursor-pointer">
+              <span>Transferir cotización a contacto</span>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 6. CONTACTO Y REDES SOCIALES ==================== -->
+    <section id="contacto" class="py-24 relative tech-grid scroll-mt-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+
+          <!-- Columna Izquierda: Correo Copiable y Botones de Redes Sociales -->
+          <div class="lg:col-span-5 space-y-8 reveal">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-[0.22em] text-emerald-400">Contacto</span>
+              <h2 class="font-display font-bold text-3xl sm:text-4xl text-white mt-3">
+                Iniciemos el desarrollo de <span class="text-gradient-vortex">tu aplicación</span>
+              </h2>
+              <p class="text-slate-400 text-base mt-4 leading-relaxed">
+                Cuéntanos sobre tu proyecto o síguenos en nuestras redes oficiales para conocer nuestros casos de éxito.
+              </p>
+            </div>
+
+            <!-- Tarjeta de Correo Corporativo Copiable -->
+            <div class="glass-panel rounded-2xl p-5 space-y-3">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div class="w-12 h-12 rounded-xl bg-cyan-500/15 border border-cyan-400/30 flex items-center justify-center text-cyan-400 shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="text-xs text-slate-400">Correo electrónico oficial</p>
+                    <p id="corporate-email-text" class="text-sm sm:text-base font-semibold text-white truncate">contacto@vortexsoftware.mx</p>
+                  </div>
+                </div>
+
+                <button type="button" id="copy-email-btn" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-cyan-500/20 border border-slate-700 hover:border-cyan-400/50 text-xs font-bold text-cyan-300 transition-all shrink-0 cursor-pointer">
+                  Copiar
+                </button>
+              </div>
+
+              <!-- Confirmación visual de copiado -->
+              <div id="copy-toast" class="hidden items-center gap-2 px-3 py-2 rounded-xl bg-emerald-500/15 border border-emerald-400/35 text-xs font-medium text-emerald-300">
+                <span>✓ Correo copiado al portapapeles</span>
+              </div>
+            </div>
+
+            <!-- Botones Oficiales de Redes Sociales (Sección Contacto) -->
+            <div class="space-y-4 relative z-20">
+              <p class="text-xs font-bold uppercase tracking-wider text-slate-300">Redes Sociales Oficiales:</p>
+              <div class="grid grid-cols-2 gap-3">
+                
+                <!-- LinkedIn -->
+                <a href="https://www.linkedin.com/in/vortex-software-abbb5044b?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   data-social-name="LinkedIn"
+                   aria-label="LinkedIn oficial de Vortex Software"
+                   class="social-link-btn glass-panel rounded-xl p-3.5 flex items-center gap-3 text-slate-200 hover:text-cyan-400 group">
+                  <div class="w-9 h-9 rounded-lg bg-cyan-500/15 text-cyan-400 flex items-center justify-center group-hover:bg-cyan-500/25 transition-colors shrink-0">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+                    </svg>
+                  </div>
+                  <span class="text-sm font-semibold">LinkedIn</span>
+                </a>
+
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/vortex.sofware.oficial?psln=MTNldW85cjJpZm14Mw=="
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   data-social-name="Instagram"
+                   aria-label="Instagram oficial de Vortex Software"
+                   class="social-link-btn glass-panel rounded-xl p-3.5 flex items-center gap-3 text-slate-200 hover:text-emerald-400 group">
+                  <div class="w-9 h-9 rounded-lg bg-emerald-500/15 text-emerald-400 flex items-center justify-center group-hover:bg-emerald-500/25 transition-colors shrink-0">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                  </div>
+                  <span class="text-sm font-semibold">Instagram</span>
+                </a>
+
+                <!-- X (Twitter) -->
+                <a href="https://x.com/VortexSofware"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   data-social-name="X (Twitter)"
+                   aria-label="X oficial de Vortex Software"
+                   class="social-link-btn glass-panel rounded-xl p-3.5 flex items-center gap-3 text-slate-200 hover:text-cyan-400 group">
+                  <div class="w-9 h-9 rounded-lg bg-cyan-500/15 text-cyan-400 flex items-center justify-center group-hover:bg-cyan-500/25 transition-colors shrink-0">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                  </div>
+                  <span class="text-sm font-semibold">X (Twitter)</span>
+                </a>
+
+                <!-- TikTok -->
+                <a href="https://www.tiktok.com/@vortex.software.s?_r=1&_t=ZS-9BRHUkxjaWk"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   data-social-name="TikTok"
+                   aria-label="TikTok oficial de Vortex Software"
+                   class="social-link-btn glass-panel rounded-xl p-3.5 flex items-center gap-3 text-slate-200 hover:text-emerald-400 group">
+                  <div class="w-9 h-9 rounded-lg bg-emerald-500/15 text-emerald-400 flex items-center justify-center group-hover:bg-emerald-500/25 transition-colors shrink-0">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                    </svg>
+                  </div>
+                  <span class="text-sm font-semibold">TikTok</span>
+                </a>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Formulario de Contacto Validado -->
+          <div class="lg:col-span-7 glass-panel rounded-3xl p-6 sm:p-10 reveal">
+            <h3 class="font-display font-bold text-2xl text-white mb-2">Solicita tu propuesta personalizada</h3>
+            <p class="text-sm text-slate-400 mb-7">Completa el formulario y un especialista de ingeniería te contactará en breve.</p>
+
+            <!-- Banner de aviso cuando se transfiere desde el cotizador -->
+            <div id="transferred-quote-alert" class="hidden mb-6 p-4 rounded-xl bg-emerald-500/15 border border-emerald-400/40 flex items-center justify-between gap-3 text-xs sm:text-sm text-emerald-200">
+              <div class="flex items-center gap-2.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0"></span>
+                <span>Resumen del cotizador transferido correctamente al formulario.</span>
+              </div>
+              <button type="button" onclick="document.getElementById('transferred-quote-alert').classList.add('hidden')" class="text-emerald-300 hover:text-white font-bold px-2 cursor-pointer" aria-label="Cerrar aviso">✕</button>
+            </div>
+
+            <!-- Estado Visual de Confirmación tras Envío -->
+            <div id="contact-success-box" class="hidden py-10 text-center space-y-5">
+              <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-400 flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/20">
+                <svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h4 class="font-display font-bold text-2xl text-white">¡Solicitud enviada con éxito!</h4>
+              <p class="text-slate-300 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
+                Gracias por contactar a <span class="text-cyan-400 font-semibold">Vortex Software</span>. Hemos registrado los detalles de tu proyecto y te responderemos muy pronto.
+              </p>
+              <div class="pt-2">
+                <button type="button" id="send-another-btn" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-cyan-500/30 text-sm font-semibold text-cyan-300 transition-all cursor-pointer">
+                  Enviar otra consulta
+                </button>
+              </div>
+            </div>
+
+            <!-- Formulario -->
+            <form id="vortex-contact-form" novalidate class="space-y-5">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <label for="input-name" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+                    Nombre completo <span class="text-emerald-400">*</span>
+                  </label>
+                  <input type="text" id="input-name" name="name" placeholder="Tu nombre o empresa" required class="w-full px-4 py-3.5 rounded-xl bg-[#0B1120]/90 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all" />
+                  <p id="err-name" class="hidden text-xs text-rose-400 mt-1.5">Por favor ingresa tu nombre.</p>
+                </div>
+
+                <div>
+                  <label for="input-email" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+                    Correo electrónico <span class="text-emerald-400">*</span>
+                  </label>
+                  <input type="email" id="input-email" name="email" placeholder="correo@empresa.com" required class="w-full px-4 py-3.5 rounded-xl bg-[#0B1120]/90 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all" />
+                  <p id="err-email" class="hidden text-xs text-rose-400 mt-1.5">Por favor ingresa un correo electrónico válido.</p>
+                </div>
+              </div>
+
+              <div>
+                <label for="input-project-type" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+                  Tipo de proyecto
+                </label>
+                <select id="input-project-type" name="projectType" class="w-full px-4 py-3.5 rounded-xl bg-[#0B1120]/90 border border-slate-700 text-white text-sm focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all">
+                  <option value="App Móvil">App Móvil (iOS y Android)</option>
+                  <option value="Plataforma Web">Plataforma Web</option>
+                  <option value="Software a la Medida">Software a la Medida</option>
+                  <option value="Consultoría en Transformación Digital">Consultoría en Transformación Digital</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="input-message" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+                  Detalles o resumen del proyecto <span class="text-emerald-400">*</span>
+                </label>
+                <textarea id="input-message" name="message" rows="5" placeholder="Describe tu idea de aplicación, alcance o módulos deseados..." required class="w-full px-4 py-3.5 rounded-xl bg-[#0B1120]/90 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all resize-y"></textarea>
+                <p id="err-message" class="hidden text-xs text-rose-400 mt-1.5">Por favor escribe un mensaje con los detalles de tu proyecto.</p>
+              </div>
+
+              <button type="submit" class="w-full py-4 px-6 rounded-xl font-bold text-base text-slate-950 btn-vortex-primary flex items-center justify-center gap-2.5 cursor-pointer">
+                <span>Enviar solicitud</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                </svg>
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== 7. FOOTER CON ENLACES OFICIALES ==================== -->
+  <footer class="bg-[#080D19] border-t border-cyan-500/15 pt-16 pb-10 relative z-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-slate-800/80">
+
+        <!-- Identidad y Eslogan -->
+        <div class="md:col-span-5 space-y-4">
+          <a href="#inicio" class="inline-flex items-center gap-3">
+            <svg viewBox="0 0 64 64" class="w-9 h-9" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="32,3 58,18 58,46 32,61 6,46 6,18" fill="#0F172A" stroke="#22D3EE" stroke-width="1.8" />
+              <ellipse cx="32" cy="20.5" rx="19.5" ry="7.2" stroke="#22D3EE" stroke-width="2.5" />
+              <path d="M15.5 27.5C20 32 44 32 48.5 27.5" stroke="#22D3EE" stroke-width="2.3" stroke-linecap="round" />
+              <path d="M19.5 34.5C23.5 38.5 40.5 38.5 44.5 34.5" stroke="#06B6D4" stroke-width="2.1" stroke-linecap="round" />
+              <path d="M24 41.5C27 44.5 37 44.5 40 41.5" stroke="#10B981" stroke-width="2" stroke-linecap="round" />
+              <path d="M28.5 48.5L32 54.5L35.5 48.5" stroke="#34D399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="font-display font-extrabold text-xl text-white">
+              Vortex <span class="text-cyan-400">Software</span>
+            </span>
+          </a>
+          <p class="text-sm text-emerald-400 font-semibold">
+            «Velocidad, lógica y diseño en cada aplicación»
+          </p>
+          <p class="text-xs text-slate-400 max-w-sm leading-relaxed">
+            Desarrollo de aplicaciones móviles (iOS y Android), plataformas web modernas y software empresarial a la medida.
+          </p>
+        </div>
+
+        <!-- Enlaces Rápidos -->
+        <div class="md:col-span-3 space-y-3">
+          <h4 class="font-display font-bold text-sm uppercase tracking-wider text-white">Navegación</h4>
+          <ul class="space-y-2.5 text-sm text-slate-400">
+            <li><a href="#servicios" class="hover:text-cyan-400 transition-colors">Servicios</a></li>
+            <li><a href="#clientes" class="hover:text-cyan-400 transition-colors">Clientes</a></li>
+            <li><a href="#nosotros" class="hover:text-cyan-400 transition-colors">Nosotros</a></li>
+            <li><a href="#cotizador" class="hover:text-cyan-400 transition-colors">Cotizador</a></li>
+            <li><a href="#contacto" class="hover:text-cyan-400 transition-colors">Contacto</a></li>
+          </ul>
+        </div>
+
+        <!-- Botones de Redes Sociales en Footer -->
+        <div class="md:col-span-4 space-y-4">
+          <h4 class="font-display font-bold text-sm uppercase tracking-wider text-white">Síguenos en Redes</h4>
+          <p class="text-xs text-slate-400">Conecta directamente con nuestros perfiles oficiales:</p>
+          <div class="flex flex-wrap items-center gap-3 pt-1">
+            
+            <!-- LinkedIn Footer -->
+            <a href="https://www.linkedin.com/in/vortex-software-abbb5044b?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+               target="_blank"
+               rel="noopener noreferrer"
+               data-social-name="LinkedIn"
+               aria-label="LinkedIn de Vortex Software"
+               title="LinkedIn"
+               class="social-link-btn p-3 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-cyan-400/60 text-slate-300 hover:text-cyan-400 transition-all">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+              </svg>
+            </a>
+
+            <!-- Instagram Footer -->
+            <a href="https://www.instagram.com/vortex.sofware.oficial?psln=MTNldW85cjJpZm14Mw=="
+               target="_blank"
+               rel="noopener noreferrer"
+               data-social-name="Instagram"
+               aria-label="Instagram de Vortex Software"
+               title="Instagram"
+               class="social-link-btn p-3 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-400/60 text-slate-300 hover:text-emerald-400 transition-all">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </a>
+
+            <!-- X Footer -->
+            <a href="https://x.com/VortexSofware"
+               target="_blank"
+               rel="noopener noreferrer"
+               data-social-name="X (Twitter)"
+               aria-label="X de Vortex Software"
+               title="X (Twitter)"
+               class="social-link-btn p-3 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-cyan-400/60 text-slate-300 hover:text-cyan-400 transition-all">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+
+            <!-- TikTok Footer -->
+            <a href="https://www.tiktok.com/@vortex.software.s?_r=1&_t=ZS-9BRHUkxjaWk"
+               target="_blank"
+               rel="noopener noreferrer"
+               data-social-name="TikTok"
+               aria-label="TikTok de Vortex Software"
+               title="TikTok"
+               class="social-link-btn p-3 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-400/60 text-slate-300 hover:text-emerald-400 transition-all">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+              </svg>
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Copyright -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <p>© 2026 Vortex Software. Todos los derechos reservados.</p>
+        <p class="text-slate-500">contacto@vortexsoftware.mx</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== BANNER DE RESPALDO PARA ENTORNO SANDBOX ==================== -->
+  <!-- Se muestra automáticamente solo si el navegador/iframe bloquea ventanas emergentes externas -->
+  <div id="sandbox-link-banner" class="hidden fixed bottom-5 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md z-50 rounded-2xl bg-[#0F172A]/95 backdrop-blur-2xl border border-cyan-400/50 shadow-2xl shadow-cyan-500/20 p-5 space-y-3.5">
+    <div class="flex items-start justify-between gap-3">
+      <div class="flex items-center gap-2.5">
+        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 shrink-0 animate-pulse"></span>
+        <h4 id="sandbox-banner-title" class="font-display font-bold text-sm text-white">
+          Enlace oficial de Vortex Software
+        </h4>
+      </div>
+      <button type="button" id="close-sandbox-banner" class="text-slate-400 hover:text-white text-sm font-bold px-1.5 cursor-pointer" aria-label="Cerrar notificación">✕</button>
+    </div>
+
+    <p class="text-xs text-slate-300 leading-relaxed">
+      La vista previa restringe la apertura automática de pestañas externas. Puedes abrir el perfil directamente o copiar la dirección:
+    </p>
+
+    <div class="px-3 py-2 rounded-xl bg-[#0B1120] border border-slate-800 text-xs font-mono text-cyan-300 truncate select-all" id="sandbox-banner-url">
+      https://...
+    </div>
+
+    <div class="flex items-center gap-2.5 pt-1">
+      <a id="sandbox-direct-open" href="#" target="_top" rel="noopener noreferrer" class="flex-1 py-2.5 px-4 rounded-xl text-xs font-bold text-slate-950 btn-vortex-primary text-center cursor-pointer">
+        Abrir perfil ahora
+      </a>
+      <button type="button" id="sandbox-copy-url-btn" class="py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 border border-cyan-500/35 text-xs font-semibold text-cyan-300 transition-colors cursor-pointer">
+        Copiar URL
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== SCRIPTS DE INTERACTIVIDAD ==================== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // ------------------------------------------------------------------
+      // 1. NAVEGACIÓN SUAVE EXCLUSIVA PARA ANCLAS INTERNAS (#)
+      // ------------------------------------------------------------------
+      // Garantiza que JAMÁS se ejecute e.preventDefault() en enlaces http/https
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener('click', (e) => {
+          const targetId = anchor.getAttribute('href');
+          if (targetId && targetId.length > 1) {
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+              e.preventDefault();
+              targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+          }
+        });
+      });
+
+      // ------------------------------------------------------------------
+      // 2. MANEJO INTELIGENTE DE ENLACES EXTERNOS DE REDES SOCIALES
+      // ------------------------------------------------------------------
+      const socialLinks = document.querySelectorAll('a.social-link-btn');
+      const sandboxBanner = document.getElementById('sandbox-link-banner');
+      const sandboxBannerTitle = document.getElementById('sandbox-banner-title');
+      const sandboxBannerUrl = document.getElementById('sandbox-banner-url');
+      const sandboxDirectOpen = document.getElementById('sandbox-direct-open');
+      const sandboxCopyBtn = document.getElementById('sandbox-copy-url-btn');
+      const closeSandboxBannerBtn = document.getElementById('close-sandbox-banner');
+
+      function showSandboxFallback(networkName, url) {
+        sandboxBannerTitle.textContent = `Perfil oficial en ${networkName}`;
+        sandboxBannerUrl.textContent = url;
+        sandboxDirectOpen.setAttribute('href', url);
+        sandboxCopyBtn.textContent = 'Copiar URL';
+        sandboxCopyBtn.classList.remove('border-emerald-400', 'text-emerald-300');
+        sandboxBanner.classList.remove('hidden');
+      }
+
+      socialLinks.forEach((link) => {
+        link.addEventListener('click', (e) => {
+          // Permitir comportamiento nativo en clics con teclas modificadoras (Ctrl/Cmd/Shift)
+          if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) {
+            return;
+          }
+
+          const url = link.getAttribute('href');
+          const networkName = link.getAttribute('data-social-name') || 'Red Social';
+
+          if (!url || !url.startsWith('http')) return;
+
+          // Intentar abrir en nueva pestaña; si el sandbox del navegador lo bloquea, activar respaldo visual
+          let newTab = null;
+          try {
+            newTab = window.open(url, '_blank');
+            if (newTab) {
+              try {
+                newTab.opener = null;
+              } catch (_) {}
+            }
+          } catch (_) {
+            newTab = null;
+          }
+
+          if (newTab) {
+            // La pestaña se abrió con éxito en el navegador; evitamos abrir una segunda pestaña duplicada
+            e.preventDefault();
+          } else {
+            // El entorno sandbox bloqueó window.open: evitamos navegación rota y mostramos la tarjeta con la URL lista
+            e.preventDefault();
+            showSandboxFallback(networkName, url);
+          }
+        });
+      });
+
+      closeSandboxBannerBtn.addEventListener('click', () => {
+        sandboxBanner.classList.add('hidden');
+      });
+
+      sandboxCopyBtn.addEventListener('click', () => {
+        const urlToCopy = sandboxBannerUrl.textContent.trim();
+        const tempInput = document.createElement('input');
+        tempInput.value = urlToCopy;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        try {
+          document.execCommand('copy');
+          sandboxCopyBtn.textContent = '¡URL copiada!';
+          sandboxCopyBtn.classList.add('border-emerald-400', 'text-emerald-300');
+        } catch (err) {
+          console.error('Error al copiar enlace:', err);
+        }
+        document.body.removeChild(tempInput);
+      });
+
+      // ------------------------------------------------------------------
+      // 3. MENÚ HAMBURGUESA MÓVIL RESPONSIVO
+      // ------------------------------------------------------------------
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const iconHamburger = document.getElementById('icon-hamburger');
+      const iconClose = document.getElementById('icon-close');
+      const mobileLinks = document.querySelectorAll('.mobile-link');
+
+      function setMobileMenu(open) {
+        if (open) {
+          mobileMenu.classList.remove('hidden');
+          iconHamburger.classList.add('hidden');
+          iconClose.classList.remove('hidden');
+          mobileMenuBtn.setAttribute('aria-expanded', 'true');
+        } else {
+          mobileMenu.classList.add('hidden');
+          iconHamburger.classList.remove('hidden');
+          iconClose.classList.add('hidden');
+          mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        }
+      }
+
+      mobileMenuBtn.addEventListener('click', () => {
+        const isHidden = mobileMenu.classList.contains('hidden');
+        setMobileMenu(isHidden);
+      });
+
+      mobileLinks.forEach((link) => {
+        link.addEventListener('click', () => setMobileMenu(false));
+      });
+
+      // ------------------------------------------------------------------
+      // 4. ANIMACIONES DE APARICIÓN EN SCROLL (IntersectionObserver)
+      // ------------------------------------------------------------------
+      const revealEls = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      revealEls.forEach((el) => observer.observe(el));
+
+      // ------------------------------------------------------------------
+      // 5. HERO CANVAS INTERACTIVO: VÓRTICE DE PARTÍCULAS Y LÍNEAS GEOMÉTRICAS
+      // ------------------------------------------------------------------
+      const heroSection = document.getElementById('inicio');
+      const canvas = document.getElementById('vortexHeroCanvas');
+      const ctx = canvas.getContext('2d');
+
+      let cw = 0;
+      let ch = 0;
+      let dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let pointerActive = false;
+      let pointerX = 0;
+      let pointerY = 0;
+      let speedFactor = 1;
+      let boostTimer = 0;
+      let elapsed = 0;
+
+      const particles = [];
+      const TOTAL_PARTICLES = 150;
+
+      function createParticles() {
+        particles.length = 0;
+        for (let i = 0; i < TOTAL_PARTICLES; i++) {
+          const depthRatio = Math.random();
+          particles.push({
+            angle: Math.random() * Math.PI * 2,
+            depthRatio: depthRatio,
+            baseSpeed: 0.008 + (1 - depthRatio) * 0.012 + Math.random() * 0.008,
+            radius: 1.5 + (1 - depthRatio) * 2.3,
+            alpha: 0.35 + Math.random() * 0.65,
+            isEmerald: Math.random() > 0.72
+          });
+        }
+      }
+
+      function resizeHeroCanvas() {
+        const rect = heroSection.getBoundingClientRect();
+        cw = rect.width;
+        ch = rect.height;
+        canvas.width = cw * dpr;
+        canvas.height = ch * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        if (!pointerActive) {
+          pointerX = cw / 2;
+          pointerY = ch / 2;
+        }
+      }
+
+      function triggerInteraction(x, y) {
+        pointerActive = true;
+        pointerX = x;
+        pointerY = y;
+        boostTimer = 45;
+      }
+
+      heroSection.addEventListener('mousemove', (e) => {
+        const rect = heroSection.getBoundingClientRect();
+        triggerInteraction(e.clientX - rect.left, e.clientY - rect.top);
+      });
+
+      heroSection.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 0) {
+          const rect = heroSection.getBoundingClientRect();
+          triggerInteraction(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
+        }
+      }, { passive: true });
+
+      heroSection.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+          const rect = heroSection.getBoundingClientRect();
+          triggerInteraction(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
+        }
+      }, { passive: true });
+
+      function animateVortex() {
+        ctx.clearRect(0, 0, cw, ch);
+
+        if (boostTimer > 0) {
+          boostTimer--;
+        } else {
+          pointerActive = false;
+        }
+
+        const targetSpeed = pointerActive ? 2.75 : 1.0;
+        speedFactor += (targetSpeed - speedFactor) * 0.06;
+        elapsed += 0.016 * speedFactor;
+
+        const offsetX = pointerActive ? (pointerX - cw / 2) * 0.08 : 0;
+        const offsetY = pointerActive ? (pointerY - ch / 2) * 0.08 : 0;
+
+        const centerX = cw / 2 + offsetX;
+        const centerY = ch * 0.48 + offsetY;
+        const maxRadiusX = Math.min(cw * 0.46, 540);
+        const maxRadiusY = Math.min(ch * 0.34, 320);
+
+        // Resplandor radial ambiental
+        const bgGlow = ctx.createRadialGradient(centerX, centerY, 20, centerX, centerY, maxRadiusX * 1.15);
+        bgGlow.addColorStop(0, 'rgba(6, 182, 212, 0.20)');
+        bgGlow.addColorStop(0.5, 'rgba(16, 185, 129, 0.07)');
+        bgGlow.addColorStop(1, 'rgba(11, 17, 32, 0)');
+        ctx.fillStyle = bgGlow;
+        ctx.fillRect(0, 0, cw, ch);
+
+        // Polígonos geométricos rotatorios
+        for (let g = 0; g < 2; g++) {
+          ctx.save();
+          ctx.translate(centerX, centerY);
+          ctx.rotate(elapsed * (g === 0 ? 0.12 : -0.09));
+          ctx.strokeStyle = g === 0 ? 'rgba(6, 182, 212, 0.14)' : 'rgba(16, 185, 129, 0.11)';
+          ctx.lineWidth = 1.1;
+          const polyR = maxRadiusX * (g === 0 ? 0.85 : 0.62);
+          ctx.beginPath();
+          for (let s = 0; s < 6; s++) {
+            const theta = (s * Math.PI) / 3;
+            const px = Math.cos(theta) * polyR;
+            const py = Math.sin(theta) * (polyR * 0.65);
+            if (s === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.closePath();
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        // Anillos orbitales
+        const rings = 6;
+        for (let r = 0; r < rings; r++) {
+          const t = r / (rings - 1);
+          const rx = maxRadiusX * (0.22 + t * 0.78);
+          const ry = maxRadiusY * (0.22 + t * 0.78);
+          ctx.beginPath();
+          ctx.ellipse(centerX, centerY, rx, ry, Math.sin(elapsed * 0.5 + r) * 0.06, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(34, 211, 238, ${0.18 - t * 0.10})`;
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
+        }
+
+        // Partículas luminosas y estelas
+        const screenNodes = [];
+
+        particles.forEach((p) => {
+          p.angle += p.baseSpeed * speedFactor;
+          p.depthRatio += 0.0014 * speedFactor;
+          if (p.depthRatio > 1) p.depthRatio = 0;
+
+          const scale = 1 - p.depthRatio * 0.78;
+          const rx = maxRadiusX * scale;
+          const ry = maxRadiusY * scale;
+
+          const x = centerX + Math.cos(p.angle) * rx;
+          const y = centerY + Math.sin(p.angle) * ry;
+
+          screenNodes.push({ x, y, isEmerald: p.isEmerald });
+
+          const trailAngle = p.angle - p.baseSpeed * (2.5 + speedFactor * 1.4);
+          const tx = centerX + Math.cos(trailAngle) * rx;
+          const ty = centerY + Math.sin(trailAngle) * ry;
+
+          ctx.beginPath();
+          ctx.moveTo(tx, ty);
+          ctx.lineTo(x, y);
+          ctx.strokeStyle = p.isEmerald
+            ? `rgba(52, 211, 153, ${p.alpha * 0.65})`
+            : `rgba(34, 211, 238, ${p.alpha * 0.75})`;
+          ctx.lineWidth = p.radius * 0.85;
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.arc(x, y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.isEmerald ? '#34D399' : '#22D3EE';
+          ctx.fill();
+        });
+
+        // Líneas de conexión entre nodos cercanos
+        ctx.lineWidth = 0.75;
+        for (let i = 0; i < screenNodes.length; i += 2) {
+          for (let j = i + 1; j < screenNodes.length; j += 3) {
+            const dx = screenNodes[i].x - screenNodes[j].x;
+            const dy = screenNodes[i].y - screenNodes[j].y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < 78) {
+              const opacity = (1 - dist / 78) * 0.30;
+              ctx.beginPath();
+              ctx.moveTo(screenNodes[i].x, screenNodes[i].y);
+              ctx.lineTo(screenNodes[j].x, screenNodes[j].y);
+              ctx.strokeStyle = screenNodes[i].isEmerald
+                ? `rgba(16, 185, 129, ${opacity})`
+                : `rgba(6, 182, 212, ${opacity})`;
+              ctx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(animateVortex);
+      }
+
+      createParticles();
+      resizeHeroCanvas();
+      window.addEventListener('resize', resizeHeroCanvas);
+      animateVortex();
+
+      // ------------------------------------------------------------------
+      // 6. COTIZADOR DINÁMICO DE APLICACIONES
+      // ------------------------------------------------------------------
+      const baseCards = document.querySelectorAll('.base-type-card');
+      const moduleCheckboxes = document.querySelectorAll('.module-checkbox');
+      const quoteBaseTitle = document.getElementById('quote-base-title');
+      const quoteTotalWeeks = document.getElementById('quote-total-weeks');
+      const quoteTotalPrice = document.getElementById('quote-total-price');
+      const quoteSelectedTags = document.getElementById('quote-selected-tags');
+      const transferQuoteBtn = document.getElementById('transfer-quote-btn');
+
+      let currentBase = {
+        name: 'App Móvil',
+        price: 18000,
+        weeks: 3
+      };
+
+      function refreshModuleCardStyles() {
+        moduleCheckboxes.forEach((cb) => {
+          const card = cb.closest('.module-card');
+          const badge = card.querySelector('.custom-check');
+          if (cb.checked) {
+            card.classList.remove('border-slate-800', 'bg-slate-900/75');
+            card.classList.add('border-cyan-400/70', 'bg-cyan-500/12');
+            badge.classList.remove('border-slate-600', 'text-transparent');
+            badge.classList.add('bg-emerald-400', 'border-emerald-400', 'text-slate-950');
+          } else {
+            card.classList.add('border-slate-800', 'bg-slate-900/75');
+            card.classList.remove('border-cyan-400/70', 'bg-cyan-500/12');
+            badge.classList.add('border-slate-600', 'text-transparent');
+            badge.classList.remove('bg-emerald-400', 'border-emerald-400', 'text-slate-950');
+          }
+        });
+      }
+
+      function calculateQuote() {
+        let totalWeeks = currentBase.weeks;
+        let totalPrice = currentBase.price;
+        const selectedModules = [];
+
+        moduleCheckboxes.forEach((cb) => {
+          if (cb.checked) {
+            totalWeeks += parseFloat(cb.dataset.weeks);
+            totalPrice += parseInt(cb.dataset.price, 10);
+            selectedModules.push(cb.dataset.label);
+          }
+        });
+
+        const formattedWeeks = Number.isInteger(totalWeeks) ? totalWeeks : totalWeeks.toFixed(1);
+        const formattedPrice = totalPrice.toLocaleString('es-MX');
+
+        quoteBaseTitle.textContent = currentBase.name;
+        quoteTotalWeeks.textContent = `${formattedWeeks} semanas`;
+        quoteTotalPrice.innerHTML = `$${formattedPrice} <span class="text-xs font-normal text-slate-400">MXN</span>`;
+
+        quoteSelectedTags.innerHTML = '';
+        const basePill = document.createElement('span');
+        basePill.className = 'px-2.5 py-1 rounded-lg bg-emerald-500/15 border border-emerald-400/35 text-emerald-300 text-xs font-semibold';
+        basePill.textContent = `Base: ${currentBase.name}`;
+        quoteSelectedTags.appendChild(basePill);
+
+        selectedModules.forEach((mod) => {
+          const pill = document.createElement('span');
+          pill.className = 'px-2.5 py-1 rounded-lg bg-cyan-500/15 border border-cyan-400/30 text-cyan-200 text-xs font-medium';
+          pill.textContent = mod;
+          quoteSelectedTags.appendChild(pill);
+        });
+
+        return {
+          baseName: currentBase.name,
+          weeks: formattedWeeks,
+          price: formattedPrice,
+          modules: selectedModules
+        };
+      }
+
+      baseCards.forEach((card) => {
+        card.addEventListener('click', () => {
+          baseCards.forEach((c) => {
+            c.classList.remove('active-base', 'bg-cyan-500/15', 'border-cyan-400', 'shadow-lg', 'shadow-cyan-500/10');
+            c.classList.add('bg-slate-900/75', 'border-slate-800');
+            c.querySelector('span:first-child').classList.replace('text-cyan-300', 'text-slate-400');
+            const dot = c.querySelector('.radio-indicator');
+            dot.classList.remove('bg-cyan-400', 'ring-4', 'ring-cyan-400/20');
+            dot.classList.add('bg-slate-700');
+          });
+
+          card.classList.add('active-base', 'bg-cyan-500/15', 'border-cyan-400', 'shadow-lg', 'shadow-cyan-500/10');
+          card.classList.remove('bg-slate-900/75', 'border-slate-800');
+          card.querySelector('span:first-child').classList.replace('text-slate-400', 'text-cyan-300');
+          const activeDot = card.querySelector('.radio-indicator');
+          activeDot.classList.remove('bg-slate-700');
+          activeDot.classList.add('bg-cyan-400', 'ring-4', 'ring-cyan-400/20');
+
+          currentBase = {
+            name: card.dataset.name,
+            price: parseInt(card.dataset.price, 10),
+            weeks: parseFloat(card.dataset.weeks)
+          };
+
+          calculateQuote();
+        });
+      });
+
+      moduleCheckboxes.forEach((cb) => {
+        cb.addEventListener('change', () => {
+          refreshModuleCardStyles();
+          calculateQuote();
+        });
+      });
+
+      window.quickSelectProject = function (name) {
+        const target = Array.from(baseCards).find((c) => c.dataset.name === name);
+        if (target) target.click();
+        document.getElementById('cotizador').scrollIntoView({ behavior: 'smooth' });
+      };
+
+      transferQuoteBtn.addEventListener('click', () => {
+        const summary = calculateQuote();
+        const projectSelect = document.getElementById('input-project-type');
+        const messageField = document.getElementById('input-message');
+        const alertBanner = document.getElementById('transferred-quote-alert');
+
+        projectSelect.value = summary.baseName;
+
+        const modListText = summary.modules.length > 0
+          ? summary.modules.map((m) => `  - ${m}`).join('\n')
+          : '  - Configuración base estándar';
+
+        messageField.value = `Hola equipo de Vortex Software,\n\nSolicito información para desarrollar el siguiente proyecto estimado en su cotizador:\n• Proyecto base: ${summary.baseName}\n• Módulos adicionales:\n${modListText}\n• Tiempo total estimado: ${summary.weeks} semanas\n• Inversión estimada: $${summary.price} MXN\n\nQuedo atento a su respuesta.`;
+
+        document.getElementById('contact-success-box').classList.add('hidden');
+        document.getElementById('vortex-contact-form').classList.remove('hidden');
+        alertBanner.classList.remove('hidden');
+
+        document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => {
+          document.getElementById('input-name').focus();
+        }, 600);
+      });
+
+      refreshModuleCardStyles();
+      calculateQuote();
+
+      // ------------------------------------------------------------------
+      // 7. COPIAR CORREO CORPORATIVO AL PORTAPAPELES
+      // ------------------------------------------------------------------
+      const copyBtn = document.getElementById('copy-email-btn');
+      const copyToast = document.getElementById('copy-toast');
+
+      copyBtn.addEventListener('click', () => {
+        const emailValue = document.getElementById('corporate-email-text').textContent.trim();
+        const helperInput = document.createElement('input');
+        helperInput.value = emailValue;
+        document.body.appendChild(helperInput);
+        helperInput.select();
+
+        try {
+          document.execCommand('copy');
+          copyBtn.textContent = '¡Copiado!';
+          copyBtn.classList.add('bg-emerald-500/20', 'border-emerald-400', 'text-emerald-300');
+          copyToast.classList.remove('hidden');
+          copyToast.classList.add('flex');
+
+          setTimeout(() => {
+            copyBtn.textContent = 'Copiar';
+            copyBtn.classList.remove('bg-emerald-500/20', 'border-emerald-400', 'text-emerald-300');
+            copyToast.classList.add('hidden');
+            copyToast.classList.remove('flex');
+          }, 2500);
+        } catch (err) {
+          console.error('No se pudo copiar el correo:', err);
+        }
+
+        document.body.removeChild(helperInput);
+      });
+
+      // ------------------------------------------------------------------
+      // 8. VALIDACIÓN Y ENVÍO DEL FORMULARIO DE CONTACTO
+      // ------------------------------------------------------------------
+      const form = document.getElementById('vortex-contact-form');
+      const successBox = document.getElementById('contact-success-box');
+      const sendAnotherBtn = document.getElementById('send-another-btn');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const nameEl = document.getElementById('input-name');
+        const emailEl = document.getElementById('input-email');
+        const msgEl = document.getElementById('input-message');
+
+        const errName = document.getElementById('err-name');
+        const errEmail = document.getElementById('err-email');
+        const errMsg = document.getElementById('err-message');
+
+        let valid = true;
+
+        if (!nameEl.value.trim()) {
+          errName.classList.remove('hidden');
+          nameEl.classList.add('border-rose-500');
+          valid = false;
+        } else {
+          errName.classList.add('hidden');
+          nameEl.classList.remove('border-rose-500');
+        }
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(emailEl.value.trim())) {
+          errEmail.classList.remove('hidden');
+          emailEl.classList.add('border-rose-500');
+          valid = false;
+        } else {
+          errEmail.classList.add('hidden');
+          emailEl.classList.remove('border-rose-500');
+        }
+
+        if (!msgEl.value.trim()) {
+          errMsg.classList.remove('hidden');
+          msgEl.classList.add('border-rose-500');
+          valid = false;
+        } else {
+          errMsg.classList.add('hidden');
+          msgEl.classList.remove('border-rose-500');
+        }
+
+        if (valid) {
+          form.classList.add('hidden');
+          document.getElementById('transferred-quote-alert').classList.add('hidden');
+          successBox.classList.remove('hidden');
+        }
+      });
+
+      sendAnotherBtn.addEventListener('click', () => {
+        form.reset();
+        successBox.classList.add('hidden');
+        form.classList.remove('hidden');
+      });
+
+    });
+  </script>
+</body>
+</html>
+```
